@@ -1,0 +1,51 @@
+.sidebar {
+  display: flex;
+  width: 250px;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sidebar__user-id {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 50px;
+  gap: 5px;
+}
+
+.sidebar__create-file {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+  gap: 10px;
+}
+
+.sidebar__files {
+  display: flex;
+  width: 100%;
+  height: auto;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sidebar_file-link {
+  user-select: none;
+  padding: 0 8px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: #f1f1f1;
+  transition: background .2s;
+
+  &:hover {
+    background: #5c5c5c;
+  }
+
+  & p {
+    font-size: 16px;
+    font-family: monospace;
+  }
+}

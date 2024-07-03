@@ -1,0 +1,30 @@
+.fileform {
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.fileform__options {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.fileform__option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fileform__option label {
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+
+.fileform__option .p-checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.fileform__option .p-button {
+  align-self: flex-start;
+}
