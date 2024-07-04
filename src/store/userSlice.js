@@ -22,7 +22,7 @@ const userSlice = createSlice({
       state.files.push(action.payload);
     },
     clearFiles(state) {
-      state.files = null;
+      state.files = [];
     },
   },
 });

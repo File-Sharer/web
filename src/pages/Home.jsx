@@ -23,6 +23,8 @@ export default function Home() {
           },
         });
 
+        if (!data.data) return;
+
         dispatch(setFiles(data.data));
       } catch (error) {
         return toast.error(error.response.data.error);
