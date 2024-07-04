@@ -1,0 +1,30 @@
+.permission {
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.permission__options {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.permission__option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.permission__option label {
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+
+.permission__option .p-checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.permission__option .p-button {
+  align-self: flex-start;
+}

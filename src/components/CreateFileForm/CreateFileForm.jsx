@@ -20,9 +20,9 @@ export default function CreateFileForm({ setDialogVisible, showToast }) {
   const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     const token = localStorage.getItem('token');
 
-    e.preventDefault();
     const formData = new FormData(e.target);
     if (!file) {
       return toast.warning('File is required');
