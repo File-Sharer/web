@@ -33,8 +33,8 @@ export default function App() {
           localStorage.removeItem('token');
         }
       }
+      setLoading(false);
     })();
-    setLoading(false);
   }, [dispatch]);
 
   if (loading) {

@@ -33,12 +33,18 @@ export default function Sidebar({userId, files}) {
     contextMenuRef.current.show(e);
   };
 
+  const signOut = () => {
+    localStorage.clear();
+    window.location.reload();
+  }
+
   return (
     <div className='sidebar'>
       <div className='sidebar__user-id'>
         Your ID: {userId}
         <Button size='small' label='Copy' icon='pi pi-copy' outlined={true} onClick={copyIdToClipboard} />
         <Toast ref={toastRef} position='top-center' />
+        <Button label='Sign-out' severity='danger' size='small' onClick={signOut} />
       </div>
       <div className='sidebar__files'>
         <div className='sidebar__create-file'>
@@ -54,7 +60,7 @@ export default function Sidebar({userId, files}) {
         {files && files.map((file, index) => {
           return (
             <Link key={index} className='sidebar_file-link' to={'/file/' + file.id} draggable={false} onContextMenu={(e) => onFileContextMenu(e, file.id)}>
-              <ContextMenu model={contextMenuItems} ref={contextMenuRef} />
+              {!file.isPublic ? <ContextMenu model={contextMenuItems} ref={contextMenuRef} /> : <></>}
               <p>{file.downloadFilename}</p>
             </Link>
           );

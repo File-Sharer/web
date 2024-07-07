@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { userServiceURL } from '../api/api';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function SignUp() {
   const [login, setLogin] = useState('');
@@ -69,6 +69,9 @@ export default function SignUp() {
         </div>
         <div className='auth__submit-container'>
           <Button label='Create account' onClick={handleSubmit} />
+        </div>
+        <div className="auth__redirect">
+          Already have an account? - <Link to={'/auth/log-in'}>Login</Link>
         </div>
       </div>
     </div>

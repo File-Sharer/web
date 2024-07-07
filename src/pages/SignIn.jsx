@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { setUser } from '../store/userSlice';
 import axios from 'axios';
 import { userServiceURL } from '../api/api';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function SignIn() {
   const [login, setLogin] = useState('');
@@ -59,7 +59,7 @@ export default function SignIn() {
       <div className='auth__form'>
         <div className='auth__options-container'>
           <FloatLabel>
-            <InputText maxLength={16} id='login' onChange={(e) => setLogin(e.target.value)} className='auth__input-field' />
+            <InputText maxLength={16} id='login' onChange={(e) => setLogin(e.target.value)} className='auth__input-field' autoComplete='off' />
             <label htmlFor='login'>Login</label>
           </FloatLabel>
           <FloatLabel>
@@ -68,7 +68,10 @@ export default function SignIn() {
           </FloatLabel>
         </div>
         <div className='auth__submit-container'>
-          <Button label='Log in' onClick={handleSubmit} />
+          <Button label='Login' onClick={handleSubmit} />
+        </div>
+        <div className="auth__redirect">
+          Do not have an account? - <Link to={'/auth/sign-up'}>Sign Up</Link>
         </div>
       </div>
     </div>

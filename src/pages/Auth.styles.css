@@ -37,3 +37,7 @@
 .auth__input-field {
   width: 268px;
 }
+
+.auth__redirect {
+  margin-top: 20px;
+}
