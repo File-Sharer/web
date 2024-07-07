@@ -32,7 +32,7 @@ export default function File() {
 
   const download = async () => {
     try {
-      const response = await axios.get(`${fileServiceURL}/files/dl/${file.id}`, {
+      const response = await axios.get(`${fileServiceURL}/files/${file.id}/dl`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
