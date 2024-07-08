@@ -7,30 +7,49 @@ import { Dialog } from 'primereact/dialog';
 import CreateFileForm from '../CreateFileForm/CreateFileForm';
 import { ContextMenu } from 'primereact/contextmenu';
 import AddPermissionForm from '../AddPermissionForm/AddPermissionForm';
+import DeleteFileForm from '../DeleteFileForm/DeleteFileForm';
 
 export default function Sidebar({userId, files}) {
   const toastRef = useRef(null);
   const [createFileDialogVisible, setCreateFileDialogVisible] = useState(false);
   const [addPermissionDialogVisible, setAddPermissionDialogVisible] = useState(false);
+  const [deleteFileDialogVisible, setDeleteFileDialogVisible] = useState(false);
   const [selectedFileId, setSelectedFileId] = useState(null);
 
-  const contextMenuRef = useRef(null);
-  const contextMenuItems = [
+  const publicFileContextMenuItems = [
+    {
+      label: 'Delete',
+      command: () => setDeleteFileDialogVisible(true),
+    },
+  ];
+  const privateFileContextMenuItems = [
     {
       label: 'Add permission',
       command: () => setAddPermissionDialogVisible(true),
     },
+    {
+      label: 'Delete',
+      command: () => setDeleteFileDialogVisible(true),
+    },
   ];
+  const publicFileContextMenuRef = useRef(null);
+  const privateFileContextMenuRef = useRef(null);
 
   const copyIdToClipboard = (e) => {
     navigator.clipboard.writeText(userId);
     toastRef.current.show({severity: 'success', detail: 'ID Copied to clipboard!', life: 2500});
   };
 
-  const onFileContextMenu = (e, fileId) => {
+  const onFileContextMenu = (e, file) => {
     e.preventDefault();
-    setSelectedFileId(fileId);
-    contextMenuRef.current.show(e);
+    setSelectedFileId(file.id);
+    if (!file.isPublic) {
+      privateFileContextMenuRef.current.show(e);
+      publicFileContextMenuRef.current.hide();
+    } else {
+      publicFileContextMenuRef.current.show(e);
+      privateFileContextMenuRef.current.hide();
+    }
   };
 
   const signOut = () => {
@@ -54,13 +73,19 @@ export default function Sidebar({userId, files}) {
             <CreateFileForm setDialogVisible={setCreateFileDialogVisible} showToast={(msg) => toastRef.current.show(msg)} />
           </Dialog>
         </div>
-        <Dialog header='Add permission' visible={addPermissionDialogVisible} onHide={() => {if (!addPermissionDialogVisible) return; setAddPermissionDialogVisible(false)}} draggable={false}>
+        <Dialog header='Add Permission' visible={addPermissionDialogVisible} onHide={() => {if (!addPermissionDialogVisible) return; setAddPermissionDialogVisible(false)}} draggable={false}>
           <AddPermissionForm fileId={selectedFileId} setDialogVisible={setAddPermissionDialogVisible} showToast={(msg) => toastRef.current.show(msg)} />
+        </Dialog>
+        <Dialog header='Delete File' visible={deleteFileDialogVisible} onHide={() => {if (!deleteFileDialogVisible) return; setDeleteFileDialogVisible(false)}} draggable={false}>
+          <DeleteFileForm fileId={selectedFileId} setDialogVisible={setDeleteFileDialogVisible} showToast={(msg) => toastRef.current.show(msg)} />
         </Dialog>
         {files && files.map((file, index) => {
           return (
-            <Link key={index} className='sidebar_file-link' to={'/file/' + file.id} draggable={false} onContextMenu={(e) => onFileContextMenu(e, file.id)}>
-              {!file.isPublic ? <ContextMenu model={contextMenuItems} ref={contextMenuRef} /> : <></>}
+            <Link key={index} className='sidebar_file-link' to={'/file/' + file.id} draggable={false} onContextMenu={(e) => onFileContextMenu(e, file)}>
+              {!file.isPublic ? <ContextMenu model={privateFileContextMenuItems} ref={privateFileContextMenuRef} />
+              :
+              <ContextMenu model={publicFileContextMenuItems} ref={publicFileContextMenuRef} />
+              }
               <p>{file.downloadFilename}</p>
             </Link>
           );
