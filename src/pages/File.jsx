@@ -36,6 +36,7 @@ export default function File() {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        responseType: 'blob',
       });
 
       const filename = response.headers['filename'];
