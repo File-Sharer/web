@@ -20,6 +20,7 @@ export default function CreateFileForm({ setDialogVisible, showToast }) {
   const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
+    console.log(file);
     e.preventDefault();
     const token = localStorage.getItem('token');
 
@@ -47,28 +48,41 @@ export default function CreateFileForm({ setDialogVisible, showToast }) {
     }
   };
 
+  const handleFileUpload = (e) => {
+    const uploadedFile = e.files[0];
+    setFile(uploadedFile);
+
+    const arr = uploadedFile.name.split('.');
+    const arrLen = arr.length;
+    setDownloadFilename(arr.slice(0, arrLen - 1).join('.'));
+  };
+
   return (
     <div className='fileform'>
       <form onSubmit={handleSubmit}>
         <div className='fileform__options'>
           <div className='fileform__option'>
-            <FloatLabel>
-              <InputText
-                id='fileDownloadName'
-                name='downloadFilename'
-                value={downloadFilename}
-                onChange={(e) => setDownloadFilename(e.target.value)}
-                tooltip='Download filename is the name of the file with which this file will be downloaded from other users'
-                tooltipOptions={{ position: 'bottom', event: 'focus' }}
-                autoComplete='off'
-                required
-              />
-              <label htmlFor='fileDownloadName'>Download filename</label>
-            </FloatLabel>
+            File
+            <FileUpload name='file' customUpload uploadHandler={handleFileUpload} mode='basic' auto chooseLabel='Browse' maxFileSize={MAX_FILE_SIZE} />
           </div>
           <div className='fileform__option'>
-            File
-            <FileUpload name='file' customUpload uploadHandler={(e) => setFile(...e.files)} mode='basic' auto chooseLabel='Browse' maxFileSize={MAX_FILE_SIZE} />
+            <div className="p-inputgroup flex-1">
+              <FloatLabel>
+                <InputText
+                  id='fileDownloadName'
+                  name='downloadFilename'
+                  value={downloadFilename}
+                  onChange={(e) => setDownloadFilename(e.target.value)}
+                  tooltip='Download filename is the name of the file with which this file will be downloaded from other users'
+                  tooltipOptions={{ position: 'bottom', event: 'focus' }}
+                  autoComplete='off'
+                />
+                <label htmlFor='fileDownloadName'>Download filename</label>
+              </FloatLabel>
+              <span className='p-inputgroup-addon'>
+                {file ? `.${file.name.split('.').pop()}` : '.ext'}
+              </span>
+            </div>
           </div>
           <div className='fileform__option'>
             <Checkbox
