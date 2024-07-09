@@ -28,7 +28,7 @@ export default function DeleteFileForm({ fileId, setDialogVisible, showToast }) 
 
   return (
     <div className='delete'>
-      <h2>Are you really want to delete this file?</h2>
+      <h2>Are you sure you want to delete this file?</h2>
       <Button label='Delete' severity='danger' size='large' onClick={handleSubmit} />
     </div>
   );
