@@ -15,7 +15,7 @@ export default function AddPermissionForm({ fileId, setDialogVisible, showToast 
     const token = localStorage.getItem('token');
 
     try {
-      await axios.patch(`${fileServiceURL}/files/${fileId}/${userId}`, null, {
+      await axios.put(`${fileServiceURL}/files/${fileId}/${userId}`, null, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
