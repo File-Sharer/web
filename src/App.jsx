@@ -8,7 +8,6 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { userServiceURL } from './api/api';
 import { clearUser, setUser } from './store/userSlice';
-import { ProgressSpinner } from 'primereact/progressspinner'
 import Loader from './components/Loader/Loader';
 import File from './pages/File';
 

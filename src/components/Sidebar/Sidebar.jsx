@@ -16,7 +16,16 @@ export default function Sidebar({userId, files}) {
   const [deleteFileDialogVisible, setDeleteFileDialogVisible] = useState(false);
   const [selectedFileId, setSelectedFileId] = useState(null);
 
+  const copyFileLink = () => {
+    navigator.clipboard.writeText(`http://localhost:5173/file/${selectedFileId}`);
+    toastRef.current.show({severity: 'success', detail: 'Link copied to clipboard!', life: 2500});
+  };
+
   const publicFileContextMenuItems = [
+    {
+      label: 'Copy link',
+      command: copyFileLink,
+    },
     {
       label: 'Delete',
       command: () => setDeleteFileDialogVisible(true),
@@ -26,6 +35,10 @@ export default function Sidebar({userId, files}) {
     {
       label: 'Add permission',
       command: () => setAddPermissionDialogVisible(true),
+    },
+    {
+      label: 'Copy link',
+      command: copyFileLink,
     },
     {
       label: 'Delete',
