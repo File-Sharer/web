@@ -55,7 +55,7 @@ export default function File() {
             File creator ID: {file.creatorId}
           </div>
           <div className='file__download'>
-            <Button label='Download' size='large' severity='help' onClick={download} />
+            <Button label='Download' size='large' onClick={download} />
           </div>
         </div>
       )}

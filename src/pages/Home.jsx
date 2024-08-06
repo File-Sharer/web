@@ -6,6 +6,7 @@ import Sidebar from '../components/Sidebar/Sidebar';
 import axios from 'axios';
 import { fileServiceURL } from '../api/api';
 import { setFiles } from '../store/userSlice';
+import ThemeSwitchElement from '../components/ThemeSwitchElement/ThemeSwitchElement';
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -35,6 +36,7 @@ export default function Home() {
   return (
     <div className='home'>
       <Sidebar userId={user.id} files={userFiles} />
+      <ThemeSwitchElement />
     </div>
   );
 }

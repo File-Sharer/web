@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 import { PrimeReactProvider } from 'primereact/api';
-import 'primereact/resources/themes/bootstrap4-dark-blue/theme.css';
 import './index.css';
 import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
@@ -20,7 +19,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <PrimeReactProvider value={value}>
         <App />
-        <ToastContainer position='bottom-right' theme='colored' />
+        <ToastContainer position='bottom-right' theme='dark' />
       </PrimeReactProvider>
     </BrowserRouter>
   </Provider>,

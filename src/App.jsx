@@ -4,17 +4,19 @@ import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
 import { useDispatch, useSelector } from 'react-redux';
 import Home from './pages/Home';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { userServiceURL } from './api/api';
 import { clearUser, setUser } from './store/userSlice';
 import Loader from './components/Loader/Loader';
 import File from './pages/File';
+import { PrimeReactContext } from 'primereact/api';
 
 export default function App() {
   const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
+  const { changeTheme } = useContext(PrimeReactContext);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -35,6 +37,11 @@ export default function App() {
       setLoading(false);
     })();
   }, [dispatch]);
+
+  useEffect(() => {
+    const currentTheme = localStorage.getItem('current-theme');
+    currentTheme ? changeTheme('bootstrap4-dark-blue', currentTheme, 'theme-link', () => {}) : (() => {})();
+  }, []);
 
   if (loading) {
     return <Loader />
