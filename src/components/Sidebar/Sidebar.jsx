@@ -58,10 +58,10 @@ export default function Sidebar({userId, files}) {
     setSelectedFileId(file.id);
     if (!file.isPublic) {
       privateFileContextMenuRef.current.show(e);
-      publicFileContextMenuRef.current.hide();
+      publicFileContextMenuRef.current ? publicFileContextMenuRef.current.hide() : (() => {})();
     } else {
       publicFileContextMenuRef.current.show(e);
-      privateFileContextMenuRef.current.hide();
+      privateFileContextMenuRef.current ? privateFileContextMenuRef.current.hide() : (() => {})();
     }
   };
 
@@ -74,9 +74,11 @@ export default function Sidebar({userId, files}) {
     <div className='sidebar'>
       <div className='sidebar__user-id'>
         Your ID: {userId}
-        <Button size='small' label='Copy' icon='pi pi-copy' outlined={true} onClick={copyIdToClipboard} />
-        <Toast ref={toastRef} position='top-center' />
-        <Button label='Sign-out' severity='danger' size='small' onClick={signOut} />
+        <div style={{display: 'flex', gap: '10px'}}>
+          <Button size='small' label='Copy ID' icon='pi pi-copy' outlined={true} onClick={copyIdToClipboard} />
+          <Toast ref={toastRef} position='top-center' />
+          <Button label='Sign-out' icon='pi pi-sign-out' severity='danger' size='small' onClick={signOut} />
+        </div>
       </div>
       <div className='sidebar__files'>
         <div className='sidebar__create-file'>
