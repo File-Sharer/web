@@ -49,7 +49,7 @@ export default function SignIn() {
   
         return navigate('/');
       } catch (error) {
-        return toast.error(error.response.data.error);
+        return toast.error(error.response?.data?.error || 'An unexpected error occured');
       }
     }
   }

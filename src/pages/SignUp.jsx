@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { userServiceURL } from '../api/api';
 import { Link, useNavigate } from 'react-router-dom';
+import { setUser } from '../store/userSlice';
 
 export default function SignUp() {
   const [login, setLogin] = useState('');
@@ -48,7 +49,7 @@ export default function SignUp() {
 
         return navigate('/');
       } catch (error) {
-        return toast.error(error.response.data.error);
+        return toast.error(error.response?.data?.error || 'An unexpected error occured');
       }
     }
   }
