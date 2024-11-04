@@ -8,11 +8,13 @@ import CreateFileForm from '../CreateFileForm/CreateFileForm';
 import { ContextMenu } from 'primereact/contextmenu';
 import AddPermissionForm from '../AddPermissionForm/AddPermissionForm';
 import DeleteFileForm from '../DeleteFileForm/DeleteFileForm';
+import ViewPermissionsForm from '../ViewPermissionsForm/ViewPermissionsForm';
 
 export default function Sidebar({userId, files}) {
   const toastRef = useRef(null);
   const [createFileDialogVisible, setCreateFileDialogVisible] = useState(false);
   const [addPermissionDialogVisible, setAddPermissionDialogVisible] = useState(false);
+  const [viewPermissionsDialogVisible, setViewPermissionsDialogVisible] = useState(false);
   const [deleteFileDialogVisible, setDeleteFileDialogVisible] = useState(false);
   const [selectedFileId, setSelectedFileId] = useState(null);
 
@@ -35,6 +37,10 @@ export default function Sidebar({userId, files}) {
     {
       label: 'Add permission',
       command: () => setAddPermissionDialogVisible(true),
+    },
+    {
+      label: 'View permissions',
+      command: () => setViewPermissionsDialogVisible(true),
     },
     {
       label: 'Copy link',
@@ -90,6 +96,9 @@ export default function Sidebar({userId, files}) {
         </div>
         <Dialog header='Add Permission' visible={addPermissionDialogVisible} onHide={() => {if (!addPermissionDialogVisible) return; setAddPermissionDialogVisible(false)}} draggable={false}>
           <AddPermissionForm fileId={selectedFileId} setDialogVisible={setAddPermissionDialogVisible} showToast={(msg) => toastRef.current.show(msg)} />
+        </Dialog>
+        <Dialog header='Permissions' visible={viewPermissionsDialogVisible} onHide={() => {if (!viewPermissionsDialogVisible) return; setViewPermissionsDialogVisible(false)}} draggable={false}>
+          <ViewPermissionsForm fileId={selectedFileId} setDialogVisible={setViewPermissionsDialogVisible} showToast={(msg) => toastRef.current.show(msg)} />
         </Dialog>
         <Dialog header='Delete File' visible={deleteFileDialogVisible} onHide={() => {if (!deleteFileDialogVisible) return; setDeleteFileDialogVisible(false)}} draggable={false}>
           <DeleteFileForm fileId={selectedFileId} setDialogVisible={setDeleteFileDialogVisible} showToast={(msg) => toastRef.current.show(msg)} />
