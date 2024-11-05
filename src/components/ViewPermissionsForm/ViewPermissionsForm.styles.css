@@ -1,19 +1,18 @@
 .permissions-list {
     padding: 1rem;
 }
-  
+
 .permissions-list h3 {
     margin-bottom: 1rem;
 }
-  
+
 .permission-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0.5rem;
 }
-  
+
 .delete-button {
     margin-left: 1rem;
 }
-  
