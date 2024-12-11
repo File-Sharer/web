@@ -40,12 +40,14 @@ export default function SignIn() {
       try {
         const { data } = await axios.post(userServiceURL + '/auth/signin', {
           login,
-          password
-        })
+          password,
+        }, {
+          withCredentials: true,
+        });
   
         dispatch(setUser(data.user));
-  
-        localStorage.setItem('token', data.token);
+
+        localStorage.setItem('token', data.accessToken);
   
         return navigate('/');
       } catch (error) {

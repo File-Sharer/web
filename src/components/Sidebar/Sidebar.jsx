@@ -9,6 +9,8 @@ import { ContextMenu } from 'primereact/contextmenu';
 import AddPermissionForm from '../AddPermissionForm/AddPermissionForm';
 import DeleteFileForm from '../DeleteFileForm/DeleteFileForm';
 import ViewPermissionsForm from '../ViewPermissionsForm/ViewPermissionsForm';
+import axios from 'axios';
+import { userServiceURL } from '../../api/api';
 
 export default function Sidebar({userId, files}) {
   const toastRef = useRef(null);
@@ -72,6 +74,8 @@ export default function Sidebar({userId, files}) {
   };
 
   const signOut = () => {
+    axios.get(userServiceURL + '/auth/signout')
+
     localStorage.clear();
     window.location.reload();
   }

@@ -30,8 +30,27 @@ export default function App() {
           });
           dispatch(setUser(data.data));
         } catch (error) {
-          dispatch(clearUser());
-          localStorage.removeItem('token');
+          if (error.response.status == 401) {
+            try {
+              const { data } = await axios.get(userServiceURL + "/auth/refresh", {
+                withCredentials: true,
+              });
+  
+              if (!data.user) return;
+
+              localStorage.setItem('token', data.accessToken);
+
+              dispatch(setUser(data.user));
+            } catch {
+              dispatch(clearUser());
+              localStorage.removeItem('token');
+              axios.get(userServiceURL + '/auth/signout');
+            }
+          } else {
+            dispatch(clearUser());
+            localStorage.removeItem('token');
+            axios.get(userServiceURL + '/auth/signout');
+          }
         }
       }
       setLoading(false);
