@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { fileServiceURL } from "../api/api";
+import { fileServiceURI } from "../api/api";
 import { Button } from "primereact/button";
 import { saveAs } from 'file-saver';
 
@@ -14,7 +14,7 @@ export default function File() {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await axios.get(`${fileServiceURL}/files/${fileId}`, {
+        const { data } = await axios.get(`${fileServiceURI}/files/${fileId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -32,7 +32,7 @@ export default function File() {
 
   const download = async () => {
     try {
-      const response = await axios.get(`${fileServiceURL}/files/${file.id}/dl`, {
+      const response = await axios.get(`${fileServiceURI}/files/${file.id}/dl`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

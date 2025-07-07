@@ -4,7 +4,7 @@ import { FloatLabel } from 'primereact/floatlabel';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import axios from 'axios';
-import { fileServiceURL } from '../../api/api';
+import { fileServiceURI } from '../../api/api';
 import { toast } from 'react-toastify';
 
 export default function AddPermissionForm({ fileId, setDialogVisible, showToast }) {
@@ -15,7 +15,7 @@ export default function AddPermissionForm({ fileId, setDialogVisible, showToast 
     const token = localStorage.getItem('token');
 
     try {
-      await axios.put(`${fileServiceURL}/files/${fileId}/${userId}`, null, {
+      await axios.put(`${fileServiceURI}/files/${fileId}/${userId}`, null, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

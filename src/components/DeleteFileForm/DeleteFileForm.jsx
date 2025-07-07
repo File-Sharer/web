@@ -2,7 +2,7 @@ import { Button } from 'primereact/button';
 import './DeleteFileForm.styles.css';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import { fileServiceURL } from '../../api/api';
+import { fileServiceURI } from '../../api/api';
 import { useDispatch } from 'react-redux';
 import { deleteFile } from '../../store/userSlice';
 
@@ -12,7 +12,7 @@ export default function DeleteFileForm({ fileId, setDialogVisible, showToast }) 
 
   const handleSubmit = async () => {
     try {
-      await axios.delete(`${fileServiceURL}/files/${fileId}`, {
+      await axios.delete(`${fileServiceURI}/files/${fileId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

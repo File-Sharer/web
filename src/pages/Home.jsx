@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import Sidebar from '../components/Sidebar/Sidebar';
 import axios from 'axios';
-import { fileServiceURL } from '../api/api';
+import { fileServiceURI } from '../api/api';
 import { setFiles } from '../store/userSlice';
 import ThemeSwitchElement from '../components/ThemeSwitchElement/ThemeSwitchElement';
 
@@ -18,7 +18,7 @@ export default function Home() {
 
     (async () => {
       try {
-        const { data } = await axios.get(fileServiceURL + '/files', {
+        const { data } = await axios.get(fileServiceURI + '/files', {
           headers: {
             'Authorization': `Bearer ${token}`,
           },

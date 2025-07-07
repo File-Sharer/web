@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../store/userSlice';
 import axios from 'axios';
-import { userServiceURL } from '../api/api';
+import { userServiceURI } from '../api/api';
 import { Link, useNavigate } from 'react-router-dom';
 
 export default function SignIn() {
@@ -38,7 +38,7 @@ export default function SignIn() {
   const handleSubmit = async () => {
     if (validateData()) {
       try {
-        const { data } = await axios.post(userServiceURL + '/auth/signin', {
+        const { data } = await axios.post(userServiceURI + '/auth/signin', {
           login,
           password,
         }, {

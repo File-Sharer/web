@@ -10,7 +10,7 @@ import AddPermissionForm from '../AddPermissionForm/AddPermissionForm';
 import DeleteFileForm from '../DeleteFileForm/DeleteFileForm';
 import ViewPermissionsForm from '../ViewPermissionsForm/ViewPermissionsForm';
 import axios from 'axios';
-import { userServiceURL } from '../../api/api';
+import { userServiceURI } from '../../api/api';
 
 export default function Sidebar({userId, files}) {
   const toastRef = useRef(null);
@@ -74,7 +74,7 @@ export default function Sidebar({userId, files}) {
   };
 
   const signOut = () => {
-    axios.get(userServiceURL + '/auth/signout')
+    axios.get(userServiceURI + '/auth/signout')
 
     localStorage.clear();
     window.location.reload();
@@ -121,7 +121,7 @@ export default function Sidebar({userId, files}) {
                 <ContextMenu model={publicFileContextMenuItems} ref={publicFileContextMenuRef} />
               </>
               }
-              <p>{file.downloadFilename}</p>
+              <p>{file.downloadFilename.length <= 16 ? file.downloadFilename : file.downloadFilename.slice(0, 16) + '...'}</p>
             </Link>
           );
         })}

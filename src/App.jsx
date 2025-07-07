@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Home from './pages/Home';
 import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import { userServiceURL } from './api/api';
+import { userServiceURI } from './api/api';
 import { clearUser, setUser } from './store/userSlice';
 import Loader from './components/Loader/Loader';
 import File from './pages/File';
@@ -23,7 +23,7 @@ export default function App() {
     (async () => {
       if (token) {
         try {
-          const { data } = await axios.get(userServiceURL + '/user', {
+          const { data } = await axios.get(userServiceURI + '/user', {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -32,7 +32,7 @@ export default function App() {
         } catch (error) {
           if (error.response.status == 401) {
             try {
-              const { data } = await axios.get(userServiceURL + "/auth/refresh", {
+              const { data } = await axios.get(userServiceURI + "/auth/refresh", {
                 withCredentials: true,
               });
   
@@ -44,12 +44,12 @@ export default function App() {
             } catch {
               dispatch(clearUser());
               localStorage.removeItem('token');
-              axios.get(userServiceURL + '/auth/signout');
+              axios.get(userServiceURI + '/auth/signout');
             }
           } else {
             dispatch(clearUser());
             localStorage.removeItem('token');
-            axios.get(userServiceURL + '/auth/signout');
+            axios.get(userServiceURI + '/auth/signout');
           }
         }
       }

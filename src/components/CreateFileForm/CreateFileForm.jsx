@@ -4,7 +4,7 @@ import { InputText } from 'primereact/inputtext';
 import { FloatLabel } from 'primereact/floatlabel';
 import { Checkbox } from 'primereact/checkbox';
 import { Button } from 'primereact/button';
-import { fileServiceURL } from '../../api/api';
+import { fileServiceURI } from '../../api/api';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
@@ -34,7 +34,7 @@ export default function CreateFileForm({ setDialogVisible, showToast }) {
     formData.append('downloadFilename', downloadFilename);
 
     try {
-      const { data } = await axios.post(`${fileServiceURL}/files`, formData, {
+      const { data } = await axios.post(`${fileServiceURI}/files`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

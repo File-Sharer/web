@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import './ViewPermissionsForm.styles.css';
 import axios from 'axios';
 import { Button } from 'primereact/button';
-import { fileServiceURL } from '../../api/api';
+import { fileServiceURI } from '../../api/api';
 
 export default function ViewPermissionsForm({ fileId, setDialogVisible, showToast }) {
   const [permissions, setPermissions] = useState([]);
@@ -10,7 +10,7 @@ export default function ViewPermissionsForm({ fileId, setDialogVisible, showToas
   useEffect(() => {
     const fetchPermissions = async () => {
       try {
-        const { data } = await axios.get(`${fileServiceURL}/files/${fileId}/permissions`, {
+        const { data } = await axios.get(`${fileServiceURI}/files/${fileId}/permissions`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem("token")}`
           },
@@ -25,7 +25,7 @@ export default function ViewPermissionsForm({ fileId, setDialogVisible, showToas
 
   const handleDeletePermission = async (userId) => {
     try {
-      await axios.delete(`${fileServiceURL}/files/${fileId}/permission`, {
+      await axios.delete(`${fileServiceURI}/files/${fileId}/permission`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem("token")}`,
         },

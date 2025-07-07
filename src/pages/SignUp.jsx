@@ -7,7 +7,7 @@ import { Button } from 'primereact/button';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import { userServiceURL } from '../api/api';
+import { userServiceURI } from '../api/api';
 import { Link, useNavigate } from 'react-router-dom';
 import { setUser } from '../store/userSlice';
 
@@ -38,7 +38,7 @@ export default function SignUp() {
   const handleSubmit = async () => {
     if (validateData()) {
       try {
-        const { data } = await axios.post(userServiceURL + '/auth/signup', {
+        const { data } = await axios.post(userServiceURI + '/auth/signup', {
           login,
           password
         }, {
