@@ -110,7 +110,7 @@ export default function Sidebar({userId, files}) {
         {files && files.map((file, index) => {
           return (
             <Link key={index} className='sidebar_file-link' to={'/file/' + file.id} draggable={false} onContextMenu={(e) => onFileContextMenu(e, file)}>
-              {!file.isPublic ?
+              {!file.public ?
               <>
                 <div className='pi pi-lock'></div>
                 <ContextMenu model={privateFileContextMenuItems} ref={privateFileContextMenuRef} />
