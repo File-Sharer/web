@@ -10,7 +10,9 @@ import AddPermissionForm from '../AddPermissionForm/AddPermissionForm';
 import DeleteFileForm from '../DeleteFileForm/DeleteFileForm';
 import ViewPermissionsForm from '../ViewPermissionsForm/ViewPermissionsForm';
 import axios from 'axios';
-import { userServiceURI } from '../../api/api';
+import { fileServiceURI, userServiceURI } from '../../api/api';
+import { useDispatch } from 'react-redux';
+import { setFiles } from '../../store/userSlice';
 
 export default function Sidebar({userId, files}) {
   const toastRef = useRef(null);
@@ -19,16 +21,42 @@ export default function Sidebar({userId, files}) {
   const [viewPermissionsDialogVisible, setViewPermissionsDialogVisible] = useState(false);
   const [deleteFileDialogVisible, setDeleteFileDialogVisible] = useState(false);
   const [selectedFileId, setSelectedFileId] = useState(null);
+  const dispatch = useDispatch();
 
   const copyFileLink = () => {
     navigator.clipboard.writeText(`http://localhost:5173/file/${selectedFileId}`);
     toastRef.current.show({severity: 'success', detail: 'Link copied to clipboard!', life: 2500});
   };
 
+  const togglePublic = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      await axios.patch(fileServiceURI + `/files/${selectedFileId}/togglepub`, null, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const updatedFiles = files.map((file) =>
+        file.id === selectedFileId ? { ...file, public: !file.public } : file
+      );
+
+      dispatch(setFiles(updatedFiles));
+      
+      toastRef.current.show({ severity: 'success', detail: 'File visibility updated!', life: 2500 });
+    } catch (e) {
+      toastRef.current.show({severity: 'danger', detail: e, life: 2000});
+    }
+  }
+
   const publicFileContextMenuItems = [
     {
       label: 'Copy link',
       command: copyFileLink,
+    },
+    {
+      label: 'Make private',
+      command: togglePublic,
     },
     {
       label: 'Delete',
@@ -47,6 +75,10 @@ export default function Sidebar({userId, files}) {
     {
       label: 'Copy link',
       command: copyFileLink,
+    },
+    {
+      label: "Make public",
+      command: togglePublic,
     },
     {
       label: 'Delete',
