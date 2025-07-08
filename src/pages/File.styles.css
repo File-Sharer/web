@@ -1,0 +1,15 @@
+.file-container {
+     & .file {
+        padding: 20px;
+
+        & .file__creator-id {
+            display: flex;
+            align-items: center;
+            padding: 0 0 15px 0;
+            
+            & button {
+                margin-left: 10px
+            }
+        }
+    }
+}

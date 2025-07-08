@@ -64,7 +64,7 @@ export default function Sidebar({userId, files}) {
   const onFileContextMenu = (e, file) => {
     e.preventDefault();
     setSelectedFileId(file.id);
-    if (!file.isPublic) {
+    if (!file.public) {
       privateFileContextMenuRef.current.show(e);
       publicFileContextMenuRef.current ? publicFileContextMenuRef.current.hide() : (() => {})();
     } else {
@@ -83,10 +83,9 @@ export default function Sidebar({userId, files}) {
   return (
     <div className='sidebar'>
       <div className='sidebar__user-id'>
-        Your ID: {userId}
+        Your ID: <Button size='small' label={userId} icon='pi pi-copy' outlined={true} onClick={copyIdToClipboard} />
+        <Toast ref={toastRef} position='top-center' />
         <div style={{display: 'flex', gap: '10px'}}>
-          <Button size='small' label='Copy ID' icon='pi pi-copy' outlined={true} onClick={copyIdToClipboard} />
-          <Toast ref={toastRef} position='top-center' />
           <Button label='Sign-out' icon='pi pi-sign-out' severity='danger' size='small' onClick={signOut} />
         </div>
       </div>

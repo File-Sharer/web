@@ -73,7 +73,7 @@ export default function SignIn() {
           <Button label='Login' onClick={handleSubmit} />
         </div>
         <div className="auth__redirect">
-          Do not have an account? - <Link to={'/auth/sign-up'}>Sign Up</Link>
+          Do not have an account? - <Link to={'/auth/sign-up'}>Register</Link>
         </div>
       </div>
     </div>

@@ -74,7 +74,7 @@ export default function SignUp() {
           <Button label='Create account' onClick={handleSubmit} />
         </div>
         <div className="auth__redirect">
-          Already have an account? - <Link to={'/auth/log-in'}>Login</Link>
+          Already have an account? - <Link to={'/auth/log-in'}>Sign In</Link>
         </div>
       </div>
     </div>
