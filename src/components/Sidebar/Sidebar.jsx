@@ -30,6 +30,10 @@ export default function Sidebar({userId, files}) {
 
   const togglePublic = async () => {
     const token = localStorage.getItem("token");
+
+    const currentFile = files.find(file => file.id === selectedFileId);
+    const prevPub = currentFile?.public;
+
     try {
       await axios.patch(fileServiceURI + `/files/${selectedFileId}/togglepub`, null, {
         headers: {
@@ -43,7 +47,8 @@ export default function Sidebar({userId, files}) {
 
       dispatch(setFiles(updatedFiles));
       
-      toastRef.current.show({ severity: 'success', detail: 'File visibility updated!', life: 2500 });
+      const text = prevPub ? 'File has been made private' : 'File has been made public';
+      toastRef.current.show({ severity: 'success', detail: text, life: 2500 });
     } catch (e) {
       toastRef.current.show({severity: 'danger', detail: e, life: 2000});
     }
