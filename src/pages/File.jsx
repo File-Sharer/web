@@ -35,7 +35,7 @@ export default function File() {
 
   const copyFileCreatorID = () => {
     navigator.clipboard.writeText(file.creatorId);
-    toastRef.current.show({severity: 'success', detail: 'ID Copied to clipboard!', life: 2500});
+    toastRef.current.show({severity: 'success', detail: 'ID copied to clipboard', life: 2500});
   };
 
   const download = async () => {

@@ -22,7 +22,7 @@ export default function AddPermissionForm({ fileId, setDialogVisible, showToast 
       });
 
       setDialogVisible(false);
-      showToast({severity: 'success', detail: `Permission to this file has been added successfully to user: ${userId}`, life: 2000});
+      showToast({severity: 'success', detail: `Permission to this file has been added to user: ${userId}`, life: 2000});
     } catch (error) {
       return toast.error(error.response.data.error);
     }

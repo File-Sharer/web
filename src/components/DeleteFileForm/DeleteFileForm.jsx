@@ -20,7 +20,7 @@ export default function DeleteFileForm({ fileId, setDialogVisible, showToast }) 
 
       dispatch(deleteFile(fileId));
       setDialogVisible(false);
-      showToast({severity: 'success', detail: `You have deleted file: ${fileId} successfully!`, life: 2000});
+      showToast({severity: 'success', detail: `You have deleted file: ${fileId}`, life: 2000});
     } catch (error) {
       return toast.error(error.response.data.error);
     }

@@ -42,7 +42,7 @@ export default function CreateFileForm({ setDialogVisible, showToast }) {
 
       dispatch(addFile(data.data));
       setDialogVisible(false);
-      showToast({severity: 'success', detail: 'File uploaded successful', life: 2000});
+      showToast({severity: 'success', detail: 'File uploaded', life: 2000});
     } catch (error) {
       return toast.error(error.response.data.error);
     }

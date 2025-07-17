@@ -95,7 +95,7 @@ export default function Sidebar({userId, files}) {
 
   const copyIdToClipboard = (e) => {
     navigator.clipboard.writeText(userId);
-    toastRef.current.show({severity: 'success', detail: 'ID Copied to clipboard!', life: 2500});
+    toastRef.current.show({severity: 'success', detail: 'ID copied to clipboard', life: 2500});
   };
 
   const onFileContextMenu = (e, file) => {
