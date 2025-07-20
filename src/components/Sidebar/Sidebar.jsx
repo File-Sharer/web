@@ -128,7 +128,7 @@ export default function Sidebar({userId, files}) {
       </div>
       <div className='sidebar__files'>
         <div className='sidebar__create-file'>
-          <h2>Your files</h2>
+          <h2>Your space</h2>
           <Button size='small' rounded={true} icon='pi pi-plus' onClick={() => setCreateFileDialogVisible(true)} />
           <Dialog header='Create file' visible={createFileDialogVisible} onHide={() => {if (!createFileDialogVisible) return; setCreateFileDialogVisible(false)}} draggable={false}>
             <CreateFileForm setDialogVisible={setCreateFileDialogVisible} showToast={(msg) => toastRef.current.show(msg)} />

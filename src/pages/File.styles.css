@@ -11,5 +11,9 @@
                 margin-left: 10px
             }
         }
+
+        & .file__size {
+            padding: 0 0 15px 0;
+        }
     }
 }
