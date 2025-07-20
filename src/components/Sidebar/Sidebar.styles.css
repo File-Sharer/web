@@ -18,9 +18,15 @@
 
 .sidebar__create-file {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   margin-bottom: 30px;
-  gap: 10px;
+
+  & .titlebtn {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 10px;
+  }
 }
 
 .sidebar__files {

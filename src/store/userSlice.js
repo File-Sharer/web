@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   user: null,
   files: [],
+  spaceSize: 0,
 };
 
 const userSlice = createSlice({
@@ -28,8 +29,17 @@ const userSlice = createSlice({
     clearFiles(state) {
       state.files = [];
     },
+    setSpaceSize(state, action) {
+      state.spaceSize = action.payload;
+    },
+    incrSpaceSize(state, action) {
+      state.spaceSize += action.payload;
+    },
+    decrSpaceSize(state, action) {
+      state.spaceSize -= action.payload;
+    },
   },
 });
 
-export const { setUser, clearUser, setFiles, addFile, deleteFile, clearFiles } = userSlice.actions;
+export const { setUser, clearUser, setFiles, addFile, deleteFile, clearFiles, setSpaceSize, incrSpaceSize, decrSpaceSize } = userSlice.actions;
 export default userSlice.reducer;

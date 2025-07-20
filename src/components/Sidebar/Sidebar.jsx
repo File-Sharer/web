@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import './Sidebar.styles.css';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Dialog } from 'primereact/dialog';
 import CreateFileForm from '../CreateFileForm/CreateFileForm';
 import { ContextMenu } from 'primereact/contextmenu';
@@ -11,8 +11,11 @@ import DeleteFileForm from '../DeleteFileForm/DeleteFileForm';
 import ViewPermissionsForm from '../ViewPermissionsForm/ViewPermissionsForm';
 import axios from 'axios';
 import { fileServiceURI, userServiceURI } from '../../api/api';
-import { useDispatch } from 'react-redux';
-import { setFiles } from '../../store/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { setFiles, setSpaceSize } from '../../store/userSlice';
+import { ProgressBar } from 'primereact/progressbar';
+
+const MAX_SPACE_SIZE = 8589934592; // 8 GB in bytes
 
 export default function Sidebar({userId, files}) {
   const toastRef = useRef(null);
@@ -21,7 +24,16 @@ export default function Sidebar({userId, files}) {
   const [viewPermissionsDialogVisible, setViewPermissionsDialogVisible] = useState(false);
   const [deleteFileDialogVisible, setDeleteFileDialogVisible] = useState(false);
   const [selectedFileId, setSelectedFileId] = useState(null);
+  const spaceSize = useSelector((state) => state.user.spaceSize);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    let currentSpaceSize = 0;
+    for (let i = 0; i < files.length; i++) {
+      currentSpaceSize += files[i].size;
+    }
+    dispatch(setSpaceSize(currentSpaceSize));
+  }, [files, dispatch]);
 
   const copyFileLink = () => {
     navigator.clipboard.writeText(`http://localhost:5173/file/${selectedFileId}`);
@@ -128,11 +140,14 @@ export default function Sidebar({userId, files}) {
       </div>
       <div className='sidebar__files'>
         <div className='sidebar__create-file'>
-          <h2>Your space</h2>
-          <Button size='small' rounded={true} icon='pi pi-plus' onClick={() => setCreateFileDialogVisible(true)} />
-          <Dialog header='Create file' visible={createFileDialogVisible} onHide={() => {if (!createFileDialogVisible) return; setCreateFileDialogVisible(false)}} draggable={false}>
-            <CreateFileForm setDialogVisible={setCreateFileDialogVisible} showToast={(msg) => toastRef.current.show(msg)} />
-          </Dialog>
+          <div className="titlebtn">
+            <h2>Your space</h2>
+            <Button size='small' rounded={true} icon='pi pi-plus' onClick={() => setCreateFileDialogVisible(true)} />
+            <Dialog header='Create file' visible={createFileDialogVisible} onHide={() => {if (!createFileDialogVisible) return; setCreateFileDialogVisible(false)}} draggable={false}>
+              <CreateFileForm setDialogVisible={setCreateFileDialogVisible} showToast={(msg) => toastRef.current.show(msg)} />
+            </Dialog>
+          </div>
+          <ProgressBar value={spaceSize / MAX_SPACE_SIZE * 100} showValue={false} />
         </div>
         <Dialog header='Add Permission' visible={addPermissionDialogVisible} onHide={() => {if (!addPermissionDialogVisible) return; setAddPermissionDialogVisible(false)}} draggable={false}>
           <AddPermissionForm fileId={selectedFileId} setDialogVisible={setAddPermissionDialogVisible} showToast={(msg) => toastRef.current.show(msg)} />
@@ -141,7 +156,7 @@ export default function Sidebar({userId, files}) {
           <ViewPermissionsForm fileId={selectedFileId} setDialogVisible={setViewPermissionsDialogVisible} showToast={(msg) => toastRef.current.show(msg)} />
         </Dialog>
         <Dialog header='Delete File' visible={deleteFileDialogVisible} onHide={() => {if (!deleteFileDialogVisible) return; setDeleteFileDialogVisible(false)}} draggable={false}>
-          <DeleteFileForm fileId={selectedFileId} setDialogVisible={setDeleteFileDialogVisible} showToast={(msg) => toastRef.current.show(msg)} />
+          <DeleteFileForm file={files.find(file => file.id === selectedFileId)} setDialogVisible={setDeleteFileDialogVisible} showToast={(msg) => toastRef.current.show(msg)} />
         </Dialog>
         {files && files.map((file, index) => {
           return (

@@ -4,23 +4,24 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { fileServiceURI } from '../../api/api';
 import { useDispatch } from 'react-redux';
-import { deleteFile } from '../../store/userSlice';
+import { decrSpaceSize, deleteFile } from '../../store/userSlice';
 
-export default function DeleteFileForm({ fileId, setDialogVisible, showToast }) {
+export default function DeleteFileForm({ file, setDialogVisible, showToast }) {
   const dispatch = useDispatch();
   const token = localStorage.getItem('token');
 
   const handleSubmit = async () => {
     try {
-      await axios.delete(`${fileServiceURI}/files/${fileId}`, {
+      await axios.delete(`${fileServiceURI}/files/${file.id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
-      dispatch(deleteFile(fileId));
+      dispatch(deleteFile(file.id));
+      dispatch(decrSpaceSize(file.size));
       setDialogVisible(false);
-      showToast({severity: 'success', detail: `You have deleted file: ${fileId}`, life: 2000});
+      showToast({severity: 'success', detail: `You have deleted file: ${file.id}`, life: 2000});
     } catch (error) {
       return toast.error(error.response.data.error);
     }

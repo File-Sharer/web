@@ -8,7 +8,7 @@ import { fileServiceURI } from '../../api/api';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { addFile } from '../../store/userSlice';
+import { addFile, incrSpaceSize } from '../../store/userSlice';
 import './CreateFileForm.styles.css';
 
 const MAX_FILE_SIZE = 268435456;
@@ -41,6 +41,7 @@ export default function CreateFileForm({ setDialogVisible, showToast }) {
       });
 
       dispatch(addFile(data.data));
+      dispatch(incrSpaceSize(data.data.size));
       setDialogVisible(false);
       showToast({severity: 'success', detail: 'File uploaded', life: 2000});
     } catch (error) {
