@@ -4,6 +4,7 @@ const initialState = {
   user: null,
   files: [],
   spaceSize: 0,
+  spaceLevel: 1,
 };
 
 const userSlice = createSlice({
@@ -38,8 +39,11 @@ const userSlice = createSlice({
     decrSpaceSize(state, action) {
       state.spaceSize -= action.payload;
     },
+    setSpaceLevel(state, action) {
+      state.spaceLevel = action.payload;
+    },
   },
 });
 
-export const { setUser, clearUser, setFiles, addFile, deleteFile, clearFiles, setSpaceSize, incrSpaceSize, decrSpaceSize } = userSlice.actions;
+export const { setUser, clearUser, setFiles, addFile, deleteFile, clearFiles, setSpaceSize, incrSpaceSize, decrSpaceSize, setSpaceLevel } = userSlice.actions;
 export default userSlice.reducer;

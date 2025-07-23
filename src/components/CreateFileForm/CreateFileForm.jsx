@@ -7,17 +7,17 @@ import { Button } from 'primereact/button';
 import { fileServiceURI } from '../../api/api';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addFile, incrSpaceSize } from '../../store/userSlice';
 import './CreateFileForm.styles.css';
-
-const MAX_FILE_SIZE = 268435456;
+import { LEVEL_SPACE_SIZES } from '../../constants/index';
 
 export default function CreateFileForm({ setDialogVisible, showToast }) {
   const [file, setFile] = useState(null);
   const [isPublic, setIsPublic] = useState(false);
   const [downloadFilename, setDownloadFilename] = useState('');
   const dispatch = useDispatch();
+  const spaceLevel = useSelector((state) => state.user.spaceLevel);
 
   const handleSubmit = async (e) => {
     console.log(file);
@@ -64,7 +64,7 @@ export default function CreateFileForm({ setDialogVisible, showToast }) {
         <div className='fileform__options'>
           <div className='fileform__option'>
             File
-            <FileUpload name='file' customUpload uploadHandler={handleFileUpload} mode='basic' auto chooseLabel='Browse' maxFileSize={MAX_FILE_SIZE} />
+            <FileUpload name='file' customUpload uploadHandler={handleFileUpload} mode='basic' auto chooseLabel='Browse' maxFileSize={LEVEL_SPACE_SIZES[spaceLevel].maxFileSize} />
           </div>
           <div className='fileform__option'>
             <div className="p-inputgroup flex-1">

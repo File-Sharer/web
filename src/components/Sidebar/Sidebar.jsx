@@ -12,10 +12,10 @@ import ViewPermissionsForm from '../ViewPermissionsForm/ViewPermissionsForm';
 import axios from 'axios';
 import { fileServiceURI, userServiceURI } from '../../api/api';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFiles, setSpaceSize } from '../../store/userSlice';
+import { setFiles, setSpaceLevel, setSpaceSize } from '../../store/userSlice';
 import { ProgressBar } from 'primereact/progressbar';
-
-const MAX_SPACE_SIZE = 8589934592; // 8 GB in bytes
+import { LEVEL_SPACE_SIZES } from '../../constants/index';
+import { Tooltip } from 'primereact/tooltip';
 
 export default function Sidebar({userId, files}) {
   const toastRef = useRef(null);
@@ -25,6 +25,7 @@ export default function Sidebar({userId, files}) {
   const [deleteFileDialogVisible, setDeleteFileDialogVisible] = useState(false);
   const [selectedFileId, setSelectedFileId] = useState(null);
   const spaceSize = useSelector((state) => state.user.spaceSize);
+  const spaceLevel = useSelector((state) => state.user.spaceLevel);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -34,6 +35,22 @@ export default function Sidebar({userId, files}) {
     }
     dispatch(setSpaceSize(currentSpaceSize));
   }, [files, dispatch]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    (async (token) => {
+      const { data } = await axios.get(fileServiceURI + "/users-spaces/level", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!data?.ok) return;
+
+      dispatch(setSpaceLevel(data.level));
+    })(token);
+  }, [spaceLevel, dispatch]);
 
   const copyFileLink = () => {
     navigator.clipboard.writeText(`http://localhost:5173/file/${selectedFileId}`);
@@ -147,7 +164,13 @@ export default function Sidebar({userId, files}) {
               <CreateFileForm setDialogVisible={setCreateFileDialogVisible} showToast={(msg) => toastRef.current.show(msg)} />
             </Dialog>
           </div>
-          <ProgressBar value={spaceSize / MAX_SPACE_SIZE * 100} showValue={false} />
+          <Tooltip target='.space-bar' />
+          <ProgressBar
+            data-pr-tooltip={`Used: ${(spaceSize / 1024**3).toFixed(4)} GB / ${LEVEL_SPACE_SIZES[spaceLevel].maxSpaceSize / 1024**3} GB`}
+            data-pr-position="right"
+            className='space-bar'
+            value={spaceSize / LEVEL_SPACE_SIZES[spaceLevel].maxSpaceSize * 100}
+            showValue={false} />
         </div>
         <Dialog header='Add Permission' visible={addPermissionDialogVisible} onHide={() => {if (!addPermissionDialogVisible) return; setAddPermissionDialogVisible(false)}} draggable={false}>
           <AddPermissionForm fileId={selectedFileId} setDialogVisible={setAddPermissionDialogVisible} showToast={(msg) => toastRef.current.show(msg)} />
