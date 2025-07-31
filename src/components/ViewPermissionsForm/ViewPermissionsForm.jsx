@@ -15,7 +15,7 @@ export default function ViewPermissionsForm({ fileId, setDialogVisible, showToas
             'Authorization': `Bearer ${localStorage.getItem("token")}`
           },
         });
-        setPermissions(data.data);
+        setPermissions(data);
       } catch (error) {
         showToast({ severity: 'error', detail: 'Failed to load permissions', life: 2500 });
       }
@@ -23,17 +23,14 @@ export default function ViewPermissionsForm({ fileId, setDialogVisible, showToas
     fetchPermissions();
   }, [fileId]);
 
-  const handleDeletePermission = async (userId) => {
+  const handleDeletePermission = async (username) => {
     try {
-      await axios.delete(`${fileServiceURI}/files/${fileId}/permission`, {
+      await axios.delete(`${fileServiceURI}/files/${fileId}/${username}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem("token")}`,
         },
-        data: {
-          'userToDelete': userId,
-        },
       });
-      setPermissions(permissions.filter((perm) => perm.userId !== userId));
+      setPermissions(permissions.filter((permUsername) => permUsername !== username));
       showToast({ severity: 'success', detail: 'Permission deleted', life: 2500 });
     } catch (error) {
       showToast({ severity: 'error', detail: 'Failed to delete permission', life: 2500 });
@@ -45,14 +42,14 @@ export default function ViewPermissionsForm({ fileId, setDialogVisible, showToas
       <h3>File Permissions</h3>
       {permissions && permissions.length > 0 ? (
         <ul>
-          {permissions.map((permission) => (
-            <li key={permission.userId} className="permission-item">
-              {permission.userId}
+          {permissions.map((username) => (
+            <li key={username} className="permission-item">
+              {username}
               <Button
                 label="Delete"
                 icon="pi pi-trash"
                 severity="danger"
-                onClick={() => handleDeletePermission(permission.userId)}
+                onClick={() => handleDeletePermission(username)}
                 className="delete-button"
               />
             </li>
