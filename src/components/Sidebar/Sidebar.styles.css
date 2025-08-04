@@ -6,7 +6,7 @@
   align-items: center;
 }
 
-.sidebar__user-id {
+.sidebar__user-info {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -16,10 +16,9 @@
   gap: 10px;
 }
 
-.sidebar__create-file {
+.sidebar__create {
   display: flex;
   flex-direction: column;
-  margin-bottom: 30px;
 
   & .titlebtn {
     display: flex;

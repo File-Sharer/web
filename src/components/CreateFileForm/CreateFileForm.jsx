@@ -15,12 +15,11 @@ import { LEVEL_SPACE_SIZES } from '../../constants/index';
 export default function CreateFileForm({ setDialogVisible, showToast }) {
   const [file, setFile] = useState(null);
   const [isPublic, setIsPublic] = useState(false);
-  const [downloadFilename, setDownloadFilename] = useState('');
+  const [downloadName, setDownloadName] = useState('');
   const dispatch = useDispatch();
   const spaceLevel = useSelector((state) => state.user.spaceLevel);
 
   const handleSubmit = async (e) => {
-    console.log(file);
     e.preventDefault();
     const token = localStorage.getItem('token');
 
@@ -31,8 +30,8 @@ export default function CreateFileForm({ setDialogVisible, showToast }) {
 
     formData.append('file', file);
     formData.append('isPublic', isPublic);
-    formData.append('downloadFilename', downloadFilename);
-
+    formData.append('downloadName', downloadName);
+    
     try {
       const { data } = await axios.post(`${fileServiceURI}/files`, formData, {
         headers: {
@@ -55,7 +54,7 @@ export default function CreateFileForm({ setDialogVisible, showToast }) {
 
     const arr = uploadedFile.name.split('.');
     const arrLen = arr.length;
-    setDownloadFilename(arr.slice(0, arrLen - 1).join('.'));
+    setDownloadName(arr.slice(0, arrLen - 1).join('.'));
   };
 
   return (
@@ -71,14 +70,14 @@ export default function CreateFileForm({ setDialogVisible, showToast }) {
               <FloatLabel>
                 <InputText
                   id='fileDownloadName'
-                  name='downloadFilename'
-                  value={downloadFilename}
-                  onChange={(e) => setDownloadFilename(e.target.value)}
-                  tooltip='Download filename is the name of the file with which this file will be downloaded from other users'
+                  name='downloadName'
+                  value={downloadName}
+                  onChange={(e) => setDownloadName(e.target.value)}
+                  tooltip='Download name is the name of the file with which this file will be downloaded from other users'
                   tooltipOptions={{ position: 'bottom', event: 'focus' }}
                   autoComplete='off'
                 />
-                <label htmlFor='fileDownloadName'>Download filename</label>
+                <label htmlFor='fileDownloadName'>Download name</label>
               </FloatLabel>
               <span className='p-inputgroup-addon'>
                 {file ? `.${file.name.split('.').pop()}` : '.ext'}
