@@ -10,7 +10,7 @@ import ViewPermissionsForm from '../ViewPermissionsForm/ViewPermissionsForm';
 import { Link } from 'react-router-dom';
 import { useRef, useState } from 'react';
 
-export function SidebarFiles({ userId, files, toastRef }) {
+export function SidebarFiles({ files, toastRef }) {
     const dispatch = useDispatch();
     const [addPermissionDialogVisible, setAddPermissionDialogVisible] = useState(false);
     const [viewPermissionsDialogVisible, setViewPermissionsDialogVisible] = useState(false);
@@ -100,9 +100,9 @@ export function SidebarFiles({ userId, files, toastRef }) {
     };
 
     return (
-        <div className='sidebar__files'>
+        <div className='sidebar__user-content'>
             <Dialog header='Add Permission' visible={addPermissionDialogVisible} onHide={() => {if (!addPermissionDialogVisible) return; setAddPermissionDialogVisible(false)}} draggable={false}>
-                <AddPermissionForm fileId={selectedFileId} setDialogVisible={setAddPermissionDialogVisible} showToast={(msg) => toastRef.current.show(msg)} />
+                <AddPermissionForm isFolder={false} resourceId={selectedFileId} setDialogVisible={setAddPermissionDialogVisible} showToast={(msg) => toastRef.current.show(msg)} />
             </Dialog>
             <Dialog header='Permissions' visible={viewPermissionsDialogVisible} onHide={() => {if (!viewPermissionsDialogVisible) return; setViewPermissionsDialogVisible(false)}} draggable={false}>
                 <ViewPermissionsForm fileId={selectedFileId} setDialogVisible={setViewPermissionsDialogVisible} showToast={(msg) => toastRef.current.show(msg)} />
@@ -112,7 +112,7 @@ export function SidebarFiles({ userId, files, toastRef }) {
             </Dialog>
             {files && files.map((file, index) => {
                 return (
-                    <Link key={index} className='sidebar_file-link' to={'/file/' + file.id} draggable={false} onContextMenu={(e) => onFileContextMenu(e, file)}>
+                    <Link key={index} className='sidebar_resource-link' to={'/file/' + file.id} draggable={false} onContextMenu={(e) => onFileContextMenu(e, file)}>
                         {!file.public ?
                         <>
                             <div className='pi pi-lock'></div>

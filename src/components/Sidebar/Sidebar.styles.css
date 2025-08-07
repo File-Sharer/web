@@ -28,7 +28,7 @@
   }
 }
 
-.sidebar__files {
+.sidebar__user-content {
   display: flex;
   width: 100%;
   height: auto;
@@ -36,7 +36,7 @@
   align-items: center;
 }
 
-.sidebar_file-link {
+.sidebar_resource-link {
   display: flex;
   align-items: center;
   justify-content: center;

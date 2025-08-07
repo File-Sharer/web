@@ -1,30 +1,27 @@
-import { Link } from 'react-router-dom';
 import './Sidebar.styles.css';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 import { useEffect, useRef, useState } from 'react';
 import { Dialog } from 'primereact/dialog';
 import CreateFileForm from '../CreateFileForm/CreateFileForm';
-import { ContextMenu } from 'primereact/contextmenu';
-import AddPermissionForm from '../AddPermissionForm/AddPermissionForm';
-import DeleteFileForm from '../DeleteFileForm/DeleteFileForm';
-import ViewPermissionsForm from '../ViewPermissionsForm/ViewPermissionsForm';
 import axios from 'axios';
 import { fileServiceURI, userServiceURI } from '../../api/api';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFiles, setSpaceLevel, setSpaceSize } from '../../store/userSlice';
+import { setSpaceLevel, setSpaceSize } from '../../store/userSlice';
 import { ProgressBar } from 'primereact/progressbar';
 import { LEVEL_SPACE_SIZES } from '../../constants/index';
 import { Tooltip } from 'primereact/tooltip';
 import { SidebarFiles } from './Sidebar.files';
 import { SidebarFolders } from './Sidebar.folders';
+import { ToggleButton } from 'primereact/togglebutton';
+import CreateFolderForm from '../CreateFolderForm/CreateFolderForm';
 
-export default function Sidebar({userId, files}) {
+export default function Sidebar({userId, files, folders}) {
   const toastRef = useRef(null);
   const [viewFolders, setViewFolders] = useState(false);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const [createFileDialogVisible, setCreateFileDialogVisible] = useState(false);
+  const [createResourceDialogVisible, setCreateResourceDialogVisible] = useState(false);
 
   useEffect(() => {
     let currentSpaceSize = 0;
@@ -75,9 +72,15 @@ export default function Sidebar({userId, files}) {
         <div className='sidebar__create'>
             <div className="titlebtn">
                 <h2>Your space</h2>
-                <Button size='small' rounded={true} icon='pi pi-plus' onClick={() => setCreateFileDialogVisible(true)} />
-                <Dialog header='Create file' visible={createFileDialogVisible} onHide={() => {if (!createFileDialogVisible) return; setCreateFileDialogVisible(false)}} draggable={false}>
-                <CreateFileForm setDialogVisible={setCreateFileDialogVisible} showToast={(msg) => toastRef.current.show(msg)} />
+                <Button size='small' rounded={true} icon='pi pi-plus' onClick={() => setCreateResourceDialogVisible(true)} />
+                <Dialog header={viewFolders ? 'Create folder' : 'Create file'} visible={createResourceDialogVisible} onHide={() => {if (!createResourceDialogVisible) return; setCreateResourceDialogVisible(false)}} draggable={false}>
+                  {
+                  viewFolders
+                  ?
+                  <CreateFolderForm setDialogVisible={setCreateResourceDialogVisible} showToast={(msg) => toastRef.current.show(msg)} />
+                  :
+                  <CreateFileForm setDialogVisible={setCreateResourceDialogVisible} showToast={(msg) => toastRef.current.show(msg)} />
+                  }
                 </Dialog>
             </div>
         </div>
@@ -90,8 +93,10 @@ export default function Sidebar({userId, files}) {
           value={user.spaceSize / LEVEL_SPACE_SIZES[user.spaceLevel].maxSpaceSize * 100}
           showValue={false}
           style={{width: '70%'}} />
+
+        <ToggleButton onLabel='Folders' offLabel='Files' checked={viewFolders} onChange={(e) => setViewFolders(e.value)} />
       </div>
-      {viewFolders ? <SidebarFolders /> : <SidebarFiles userId={userId} files={files} toastRef={toastRef} />}
+      {viewFolders ? <SidebarFolders folders={folders} toastRef={toastRef} /> : <SidebarFiles files={files} toastRef={toastRef} />}
     </div>
   );
 }

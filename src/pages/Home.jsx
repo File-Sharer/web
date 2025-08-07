@@ -5,13 +5,14 @@ import { toast } from 'react-toastify';
 import Sidebar from '../components/Sidebar/Sidebar';
 import axios from 'axios';
 import { fileServiceURI } from '../api/api';
-import { setFiles } from '../store/userSlice';
+import { setFiles, setFolders } from '../store/userSlice';
 import ThemeSwitchElement from '../components/ThemeSwitchElement/ThemeSwitchElement';
 
-export default function Home() {
+export default function Home({ folderId }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
   const userFiles = useSelector((state) => state.user.files);
+  const userFolders = useSelector((state) => state.user.folders);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -24,18 +25,38 @@ export default function Home() {
           },
         });
 
-        if (!data.data) return;
+        if (!data) return;
 
-        dispatch(setFiles(data.data));
+        dispatch(setFiles(data));
       } catch (error) {
         return toast.error(error.response.data.error);
       }
     })();
-  }, [dispatch, user.login]);
+  }, [dispatch]);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    (async () => {
+      try {
+        const { data } = await axios.get(fileServiceURI + '/folders', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        })
+
+        if (!data) return;
+
+        dispatch(setFolders(data));
+      } catch (error) {
+        return toast.error(error.response.data.error);
+      }
+    })();
+  }, [dispatch]);
 
   return (
     <div className='home'>
-      <Sidebar userId={user.id} files={userFiles} />
+      <Sidebar userId={user.id} files={userFiles} folders={userFolders} />
       <ThemeSwitchElement />
     </div>
   );

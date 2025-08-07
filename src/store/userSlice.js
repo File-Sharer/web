@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   user: null,
   files: [],
+  folders: [],
   spaceSize: 0,
   spaceLevel: 1,
 };
@@ -42,8 +43,35 @@ const userSlice = createSlice({
     setSpaceLevel(state, action) {
       state.spaceLevel = action.payload;
     },
+    setFolders(state, action) {
+      state.folders = action.payload;
+    },
+    addFolder(state, action) {
+      state.folders.push(action.payload);
+    },
+    deleteFolder(state, action) {
+      const index = state.folders.findIndex((f) => f.id === action.payload);
+      state.folders.splice(index, 1);
+    },
+    clearFolders(state) {
+      state.folders = [];
+    },
   },
 });
 
-export const { setUser, clearUser, setFiles, addFile, deleteFile, clearFiles, setSpaceSize, incrSpaceSize, decrSpaceSize, setSpaceLevel } = userSlice.actions;
+export const { 
+  setUser,
+  clearUser,
+  setFiles,
+  addFile,
+  deleteFile,
+  clearFiles,
+  setFolders,
+  addFolder,
+  deleteFolder,
+  clearFolders,
+  setSpaceSize,
+  incrSpaceSize,
+  decrSpaceSize,
+  setSpaceLevel } = userSlice.actions;
 export default userSlice.reducer;
