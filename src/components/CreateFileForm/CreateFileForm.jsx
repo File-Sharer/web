@@ -63,7 +63,7 @@ export default function CreateFileForm({ setDialogVisible, showToast }) {
         <div className='fileform__options'>
           <div className='fileform__option'>
             File
-            <FileUpload name='file' customUpload uploadHandler={handleFileUpload} mode='basic' auto chooseLabel='Browse' maxFileSize={LEVEL_SPACE_SIZES[spaceLevel].maxFileSize} />
+            <FileUpload name='file' customUpload={true} uploadHandler={handleFileUpload} mode='basic' auto chooseLabel='Browse' maxFileSize={LEVEL_SPACE_SIZES[spaceLevel].maxFileSize} />
           </div>
           <div className='fileform__option'>
             <div className="p-inputgroup flex-1">

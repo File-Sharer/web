@@ -1,0 +1,29 @@
+.folderform {
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.folderform__options {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.folderform__option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.folderform__option label {
+  margin-bottom: 4px;
+}
+
+.folderform__option .p-checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.folderform__option .p-button {
+  align-self: flex-start;
+}

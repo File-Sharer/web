@@ -75,11 +75,11 @@ export default function Sidebar({userId, files, folders}) {
                 <Button size='small' rounded={true} icon='pi pi-plus' onClick={() => setCreateResourceDialogVisible(true)} />
                 <Dialog header={viewFolders ? 'Create folder' : 'Create file'} visible={createResourceDialogVisible} onHide={() => {if (!createResourceDialogVisible) return; setCreateResourceDialogVisible(false)}} draggable={false}>
                   {
-                  viewFolders
-                  ?
-                  <CreateFolderForm setDialogVisible={setCreateResourceDialogVisible} showToast={(msg) => toastRef.current.show(msg)} />
-                  :
-                  <CreateFileForm setDialogVisible={setCreateResourceDialogVisible} showToast={(msg) => toastRef.current.show(msg)} />
+                    viewFolders
+                    ?
+                    <CreateFolderForm setDialogVisible={setCreateResourceDialogVisible} showToast={(msg) => toastRef.current.show(msg)} />
+                    :
+                    <CreateFileForm setDialogVisible={setCreateResourceDialogVisible} showToast={(msg) => toastRef.current.show(msg)} />
                   }
                 </Dialog>
             </div>
