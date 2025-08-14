@@ -12,7 +12,7 @@ import { addFile, incrSpaceSize } from '../../store/userSlice';
 import './CreateFileForm.styles.css';
 import { LEVEL_SPACE_SIZES } from '../../constants/index';
 
-export default function CreateFileForm({ setDialogVisible, showToast }) {
+export default function CreateFileForm({ setDialogVisible, showToast, folderId }) {
   const [file, setFile] = useState(null);
   const [isPublic, setIsPublic] = useState(false);
   const [downloadName, setDownloadName] = useState('');
@@ -28,9 +28,11 @@ export default function CreateFileForm({ setDialogVisible, showToast }) {
       return toast.warning('File is required');
     }
 
+    if (folderId) {
+      formData.append("folderId", folderId);
+    }
     formData.append('file', file);
     formData.append('isPublic', isPublic);
-    formData.append('downloadName', downloadName);
     
     try {
       const { data } = await axios.post(`${fileServiceURI}/files`, formData, {
