@@ -105,7 +105,7 @@ export function SidebarFiles({ files, toastRef }) {
                 <AddPermissionForm isFolder={false} resourceId={selectedFileId} setDialogVisible={setAddPermissionDialogVisible} showToast={(msg) => toastRef.current.show(msg)} />
             </Dialog>
             <Dialog header='Permissions' visible={viewPermissionsDialogVisible} onHide={() => {if (!viewPermissionsDialogVisible) return; setViewPermissionsDialogVisible(false)}} draggable={false}>
-                <ViewPermissionsForm fileId={selectedFileId} setDialogVisible={setViewPermissionsDialogVisible} showToast={(msg) => toastRef.current.show(msg)} />
+                <ViewPermissionsForm isFolder={false} resourceId={selectedFileId} setDialogVisible={setViewPermissionsDialogVisible} showToast={(msg) => toastRef.current.show(msg)} />
             </Dialog>
             <Dialog header='Delete File' visible={deleteFileDialogVisible} onHide={() => {if (!deleteFileDialogVisible) return; setDeleteFileDialogVisible(false)}} draggable={false}>
                 <DeleteFileForm file={files.find(file => file.id === selectedFileId)} setDialogVisible={setDeleteFileDialogVisible} showToast={(msg) => toastRef.current.show(msg)} />
